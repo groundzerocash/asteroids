@@ -6,32 +6,29 @@ from asteroid import Asteroid
 from asteroidfield import AsteroidField
 
 def main():
-    print("Starting asteroids!")
-    print(f"Screen width: {SCREEN_WIDTH}")
-    print(f"Screen height: {SCREEN_HEIGHT}")
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
-    
     clock = pygame.time.Clock()
     
-    dt = 0
     
-    player = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
     
+    #Groups can be used to minimize code, we are covering the drawing of two classes (asteroids (which there are many), player) every instance, such as one press forward or backward
+    #And the updating of all the classes
+    #And we even have a group just for asteroids, that way we can loop through a tuple of asteroid vectors to see if they are in collision with the player class
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
     
-    updatable.add(player)
-    drawable.add(player)
     
     
-    
-    Player.containers = (updatable, drawable)
     Asteroid.containers = (asteroids, updatable, drawable)
     AsteroidField.containers = (updatable,)
-    
     asteroid_field = AsteroidField()
+    
+    Player.containers = (updatable, drawable)
+    player = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)#spawns player in the center, if this is placed before - it does not show up  for some reason
+    
+    dt = 0
     
     while True:
         for event in pygame.event.get():
@@ -40,13 +37,13 @@ def main():
         
         for obj in updatable:
             obj.update(dt)
-            
-        screen.fill('black')
         
         for asteroid in asteroids:
             if asteroid.collides_with(player):
                 print("Game over!")
                 sys.exit()
+        
+        screen.fill('black')
         
         for obj in drawable:
             obj.draw(screen)
