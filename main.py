@@ -5,12 +5,17 @@ from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
 from shot import Shot
+from sound_manager import SoundManager
 
 def main():
     pygame.init()
+    pygame.mixer.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
     clock = pygame.time.Clock()
     
+    sound_manager = SoundManager()
+    sound_manager.load_music('assets/sounds/scifi.mp3')
+    sound_manager.play_music()
     
     
     #Groups can be used to minimize code, we are covering the drawing of two classes (asteroids (which there are many), player) every instance, such as one press forward or backward

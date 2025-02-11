@@ -1,6 +1,7 @@
 from constants import *#PLAYER_RADIUS, PLAYER_TURN_SPEED, PLAYER_SPEED, PLAYER_SHOOT_SPEED
 from circleshape import CircleShape
 from shot import Shot
+from sound_manager import SoundManager
 import pygame
 
 class Player(CircleShape):
@@ -9,6 +10,10 @@ class Player(CircleShape):
 
         self.rotation = 0
         self.timer = 0 # shot cooldown timer
+        
+        self.sound_manager = SoundManager()
+        
+        self.sound_manager.load_sound("shoot", "assets/sounds/laser.flac") 
 
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
@@ -48,6 +53,7 @@ class Player(CircleShape):
     def shoot(self):
         if self.check_timer():
             shot = Shot(self.position.x, self.position.y)
+            self.sound_manager.play_sound('shoot')
             shot.velocity = pygame.Vector2(0,1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
             self.timer += PLAYER_SHOOT_COOLDOWN
     
