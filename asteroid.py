@@ -1,6 +1,7 @@
 import pygame
 from circleshape import CircleShape
 from constants import *
+from sound_manager import SoundManager
 import random
 
 class Asteroid(CircleShape):
@@ -8,6 +9,9 @@ class Asteroid(CircleShape):
         super().__init__(x, y, radius)
         
         self.velocity = pygame.Vector2(1,1)
+        
+        self.sound_manager = SoundManager()
+        self.sound_manager.load_sound('pop', 'assets/sounds/asteroid_pop.wav')
 
     
     def draw(self, screen):
@@ -18,6 +22,7 @@ class Asteroid(CircleShape):
     
     def split(self):
         self.kill()
+        self.sound_manager.play_sound('pop')
         if self.radius <= ASTEROID_MIN_RADIUS:
             return
         
