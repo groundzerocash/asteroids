@@ -14,6 +14,10 @@ class Player(CircleShape):
         self.sound_manager = SoundManager()
         
         self.sound_manager.load_sound("shoot", "assets/sounds/laser.flac") 
+        self.original_image = pygame.image.load('assets/images/bow.png')
+        self.player_image = self.original_image
+        self.rect = self.player_image.get_rect()
+        self.rect.center = (x,y)
 
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
@@ -24,7 +28,8 @@ class Player(CircleShape):
         return [a, b, c]
     
     def draw(self, screen):
-        pygame.draw.polygon(screen, 'white', self.triangle(), 2)
+        #pygame.draw.polygon(screen, 'white', self.triangle(), 2)
+        screen.blit(self.player_image, self.rect)
     
     def rotate(self, dt):
         self.rotation += PLAYER_TURN_SPEED * dt
@@ -46,9 +51,12 @@ class Player(CircleShape):
         if self.timer > 0:
             self.timer -= dt
             
+        self.update_image()
+            
     def move(self, dt):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         self.position += forward * PLAYER_SPEED * dt
+        self.rect.center = self.position
     
     def shoot(self):
         if self.check_timer():
@@ -59,5 +67,11 @@ class Player(CircleShape):
     
     def check_timer(self):
         return self.timer <= 0 
+    
+    def update_image(self):
+        # Rotate the image to match the current rotation
+        self.player_image = pygame.transform.rotate(self.original_image, -self.rotation)
+        # Update the rect to fit the rotated image
+        self.rect = self.player_image.get_rect(center=self.rect.center)
         
         

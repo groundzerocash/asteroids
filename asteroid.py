@@ -12,13 +12,18 @@ class Asteroid(CircleShape):
         
         self.sound_manager = SoundManager()
         self.sound_manager.load_sound('pop', 'assets/sounds/asteroid_pop.wav')
-
+        self.enemy_image = pygame.image.load('assets/images/enemy.png')
+        self.rect = self.enemy_image.get_rect()
+        self.rect.center = (x,y)
     
     def draw(self, screen):
-        pygame.draw.circle(screen, "white", self.position, self.radius,2)
-    
+        #pygame.draw.circle(screen, "white", self.position, self.radius,2)
+        screen.blit(self.enemy_image, self.rect)
+        
     def update(self, dt):
         self.position += self.velocity * dt
+        
+        self.rect = self.position
     
     def split(self):
         self.kill()
