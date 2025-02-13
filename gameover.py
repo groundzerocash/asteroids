@@ -38,3 +38,4 @@ def game_over_screen(screen):
                     return True  # Return True to indicate a restart
 
     return False  # If no input, stay in the game over screen
+
