@@ -6,6 +6,9 @@ from asteroid import Asteroid
 from asteroidfield import AsteroidField
 from shot import Shot
 from sound_manager import SoundManager
+from gameover import game_over_screen
+import random
+
 
 def main():
     pygame.init()
@@ -47,7 +50,13 @@ def main():
         for asteroid in asteroids:
             if asteroid.collides_with(player):
                 print("Game over!")
-                sys.exit()
+                die_sound = sound_manager.load_sound('die','assets/sounds/die_sound.wav')
+                sound_manager.play_sound('die')
+                if game_over_screen(screen):  # If they choose to try again
+                    main()
+
+                else:
+                    running = False  # Exit the game if they don't restart
         
         for asteroid in asteroids:
             for bullet in shots:

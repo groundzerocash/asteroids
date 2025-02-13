@@ -5,25 +5,33 @@ from sound_manager import SoundManager
 import random
 
 class Asteroid(CircleShape):
+    enemy_images = [
+        pygame.image.load('assets/images/enemy4.png'),
+        pygame.image.load('assets/images/enemy3.png'),
+        pygame.image.load('assets/images/enemy2.jpeg'),
+        pygame.image.load('assets/images/enemy.png') 
+    ]
     def __init__(self, x, y, radius):
         super().__init__(x, y, radius)
         
         self.velocity = pygame.Vector2(1,1)
-        
         self.sound_manager = SoundManager()
         self.sound_manager.load_sound('pop', 'assets/sounds/asteroid_pop.wav')
-        self.enemy_image = pygame.image.load('assets/images/enemy.png')
+        
+        self.random_image = random.choice(self.enemy_images)
+        self.enemy_image = pygame.transform.scale(self.random_image, (int(radius * 2), int(radius * 2)))
         self.rect = self.enemy_image.get_rect()
         self.rect.center = (x,y)
     
     def draw(self, screen):
         #pygame.draw.circle(screen, "white", self.position, self.radius,2)
+        pygame.draw.circle(screen, (255, 0, 0), self.rect.center, self.radius, 2)
         screen.blit(self.enemy_image, self.rect)
         
     def update(self, dt):
         self.position += self.velocity * dt
         
-        self.rect = self.position
+        self.rect.center = self.position
     
     def split(self):
         self.kill()
