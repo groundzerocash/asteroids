@@ -2,7 +2,7 @@ import pygame
 import random
 from asteroid import Asteroid
 from constants import *
-
+from boss import Boss
 
 class AsteroidField(pygame.sprite.Sprite):
     edges = [
@@ -31,11 +31,19 @@ class AsteroidField(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.spawn_timer = 0.0
+        self.boss_spawned = False
 
     def spawn(self, radius, position, velocity):
         asteroid = Asteroid(position.x, position.y, radius)
         asteroid.velocity = velocity
 
+    def spawn_boss(self, updatable, drawable):
+        if not self.boss_spawned:
+            boss = Boss(SCREEN_WIDTH / 2, SCREEN_HEIGHT)  # Spawn at a custom location
+            updatable.add(boss)  # Add to the appropriate groups
+            drawable.add(boss)
+            self.boss_spawned = True
+            
     def update(self, dt):
         self.spawn_timer += dt
         if self.spawn_timer > ASTEROID_SPAWN_RATE:

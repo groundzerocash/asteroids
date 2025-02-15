@@ -31,3 +31,15 @@ class SoundManager:
     def stop_music(self):
         """Stops the background music."""
         pygame.mixer.music.stop()
+
+    def play_boss_music(self):
+        """Stops normal music and plays boss music."""
+        self.stop_music()  # Stop the normal music
+        self.load_music('assets/sounds/boss.wav')  # Load boss music
+        self.play_music(loops=-1)  # Play boss music indefinitely
+
+    def play_normal_music(self):
+        """Stops boss music and plays normal music."""
+        self.stop_music()  # Stop the boss music
+        self.load_music('assets/sounds/scifi.mp3')  # Load normal background music
+        self.play_music(loops=-1)  # Play normal music indefinitely
