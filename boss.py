@@ -14,7 +14,7 @@ class Boss(Asteroid):
         self.boss_image = pygame.transform.scale(self.boss_image, (int(ASTEROID_MAX_RADIUS *1.5*2), int(ASTEROID_MAX_RADIUS *1.5*2)))
         self.rect = self.boss_image.get_rect()
         self.rect.center = (x,y)
-        self.health = 10
+        self.health = BOSS_HEALTH
         
     def draw(self,screen):
         pygame.draw.circle(screen, (255, 0, 0), self.rect.center, ASTEROID_MAX_RADIUS *1.5, 2)

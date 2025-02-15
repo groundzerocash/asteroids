@@ -8,7 +8,7 @@ class Asteroid(CircleShape):
     enemy_images = [
         pygame.image.load('assets/images/enemy4.png'),
         pygame.image.load('assets/images/enemy3.png'),
-        pygame.image.load('assets/images/enemy2.jpeg'),
+        pygame.image.load('assets/images/enemy2.png'),
         pygame.image.load('assets/images/enemy.png') 
     ]
     def __init__(self, x, y, radius):
@@ -25,7 +25,7 @@ class Asteroid(CircleShape):
     
     def draw(self, screen):
         #pygame.draw.circle(screen, "white", self.position, self.radius,2)
-        pygame.draw.circle(screen, (255, 0, 0), self.rect.center, self.radius, 2)
+        #pygame.draw.circle(screen, (255, 0, 0), self.rect.center, self.radius, 2)
         screen.blit(self.enemy_image, self.rect)
         
     def update(self, dt):

@@ -7,7 +7,7 @@ from boss import Boss
 from asteroidfield import AsteroidField
 from shot import Shot
 from sound_manager import SoundManager
-from gameover import game_over_screen
+from gameover import game_over_screen, win_screen
 
 
 def main():
@@ -21,6 +21,7 @@ def main():
     
     sound_manager = SoundManager()
     sound_manager.load_sound('die','assets/sounds/die_sound.wav')
+    sound_manager.load_sound('win', 'assets/sounds/win.wav')
     sound_manager.load_music('assets/sounds/scifi.mp3')
     sound_manager.play_music()
     
@@ -70,17 +71,20 @@ def main():
                         asteroid.take_damage()  # The boss takes damage
                         bullet.kill()  # Destroy the bullet after hitting the boss
                         if asteroid.health <= 0:  # If the boss has no health left
-                            print("The boss is defeated!")
+                            sound_manager.stop_music()
+                            sound_manager.play_sound('win')
                             asteroid.kill()  # Remove the boss from the game
-                            sound_manager.play_normal_music()
+                            if win_screen(screen):
+                                main()
+                            else:
+                                running = False
+                            
                     else:  # Normal asteroids
                         asteroid.split()  # Split the asteroid
                         bullet.kill()  # Destroy the bullet
 
                     
         if time_elapsed >= 10 and not boss_spawned:
-            for asteroid in asteroids:
-                asteroid.kill()
             asteroid_field.spawn_boss(updatable, drawable) # Spawn at a custom location
             boss_spawned = True 
             sound_manager.play_boss_music()

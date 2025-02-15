@@ -39,7 +39,9 @@ class AsteroidField(pygame.sprite.Sprite):
 
     def spawn_boss(self, updatable, drawable):
         if not self.boss_spawned:
-            boss = Boss(SCREEN_WIDTH / 2, SCREEN_HEIGHT)  # Spawn at a custom location
+            edge = random.choice(self.edges)
+            position = edge[1](random.uniform(0, 1))
+            boss = Boss(position.x, position.y)  # Spawn at a custom location
             updatable.add(boss)  # Add to the appropriate groups
             drawable.add(boss)
             self.boss_spawned = True
