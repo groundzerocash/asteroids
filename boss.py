@@ -16,16 +16,24 @@ class Boss(Asteroid):
         self.rect.center = (x,y)
         self.health = BOSS_HEALTH
         
+        self.alive_time = 0
+        
     def draw(self,screen):
-        pygame.draw.circle(screen, (255, 0, 0), self.rect.center, ASTEROID_MAX_RADIUS *1.5, 2)
+        #pygame.draw.circle(screen, (255, 0, 0), self.rect.center, ASTEROID_MAX_RADIUS *1.5, 2)
         screen.blit(self.boss_image,self.rect)
     
     def update(self, dt, player):
+        # Track the time the boss has been alive
+        self.alive_time += dt
+        
+        # Make the boss go faster over time
+        speed_increase_factor = 1 + (self.alive_time / 10)  # Increase speed by 10% every second
         self.direction = pygame.Vector2(player.rect.center) - pygame.Vector2(self.rect.center)
+        
         if self.direction.length() > 1:
             self.direction = self.direction.normalize()
-            self.velocity = self.direction * 50
-
+            self.velocity = self.direction * (25 * speed_increase_factor)  # Increase velocity over time
+        
         self.position += self.velocity * dt
         self.rect.center = self.position
         

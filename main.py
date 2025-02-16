@@ -7,7 +7,7 @@ from boss import Boss
 from asteroidfield import AsteroidField
 from shot import Shot
 from sound_manager import SoundManager
-from gameover import game_over_screen, win_screen
+from gameover import game_over_screen, win_screen, title_screen
 
 
 def main():
@@ -15,6 +15,8 @@ def main():
     pygame.mixer.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
     clock = pygame.time.Clock()
+    
+    title_screen(screen)
     
     time_elapsed = 0 #start internal clock to have boss timer start
     boss_spawned = False
@@ -57,6 +59,7 @@ def main():
         for asteroid in asteroids:
             if asteroid.collides_with(player):
                 print("Game over!")
+                sound_manager.stop_music()
                 sound_manager.play_sound('die')
                 if game_over_screen(screen):  # If they choose to try again
                     main()
@@ -70,7 +73,7 @@ def main():
                     if isinstance(asteroid, Boss):  # If the asteroid is a boss
                         asteroid.take_damage()  # The boss takes damage
                         bullet.kill()  # Destroy the bullet after hitting the boss
-                        if asteroid.health <= 0:  # If the boss has no health left
+                        if asteroid.health <= 0 or time_elapsed >= 60:  # If the boss has no health left
                             sound_manager.stop_music()
                             sound_manager.play_sound('win')
                             asteroid.kill()  # Remove the boss from the game
@@ -84,7 +87,7 @@ def main():
                         bullet.kill()  # Destroy the bullet
 
                     
-        if time_elapsed >= 10 and not boss_spawned:
+        if time_elapsed >= 25 and not boss_spawned:
             asteroid_field.spawn_boss(updatable, drawable) # Spawn at a custom location
             boss_spawned = True 
             sound_manager.play_boss_music()

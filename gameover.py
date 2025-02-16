@@ -1,6 +1,30 @@
 # game_over.py
 
 import pygame
+import sys
+
+def title_screen(screen):
+    font = pygame.font.SysFont(None, 48)
+    title_text = font.render("GOAL: Survive One Minute", True, (0, 0, 255))
+    start_text = font.render("Press ENTER to Start", True, (0, 255, 0))
+
+    while True:
+        screen.fill((0, 0, 0))  # Black background
+
+        # Draw the title text
+        screen.blit(title_text, (250, 200))
+        screen.blit(start_text, (250, 300))
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:  # Start the game on pressing ENTER
+                    return
+
+        pygame.display.update()
+
 
 def game_over_screen(screen):
     font = pygame.font.SysFont("Arial", 48)
