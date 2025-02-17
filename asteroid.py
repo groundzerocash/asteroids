@@ -52,4 +52,51 @@ class Asteroid(CircleShape):
         new_asteroid1.velocity = velocity1*1.2
         new_asteroid2.velocity = velocity2*1.2
         
-        
+
+class Explosion(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        super().__init__()
+
+        # Load a sequence of images representing the explosion animation.
+        self.frames = [
+            pygame.image.load('assets/images/explosion.jpg'),
+            pygame.image.load('assets/images/explosion2.jpg'),
+            pygame.image.load('assets/images/explosion3.jpg'),
+            #pygame.image.load('assets/images/explosion4.png'),
+            # Add more frames if necessary
+        ]
+
+        # Set the initial image to the first frame
+        self.image = self.frames[0]
+        self.rect = self.image.get_rect()
+        self.rect.center = (x, y)
+
+        # Time tracking
+        self.last_update_time = pygame.time.get_ticks()  # Tracks the last frame update time
+        self.frame_delay = 500  # Delay in milliseconds (500 ms = 0.5 seconds)
+        self.current_frame = 0
+        self.max_lifetime = len(self.frames)  # Total number of frames in the explosion sequence
+
+        # Play the explosion sound initially
+        self.explosion_sound = pygame.mixer.Sound('assets/sounds/explosion.wav')
+
+    def update(self, dt):
+        """Update the explosion animation (change frames every 0.5 seconds)."""
+        # Check if enough time has passed (500ms)
+        current_time = pygame.time.get_ticks()  # Get the current time in milliseconds
+        if current_time - self.last_update_time >= self.frame_delay:  # If 0.5s has passed
+            self.last_update_time = current_time  # Reset the last update time to the current time
+            self.current_frame += 1  # Move to the next frame
+
+            self.explosion_sound.play()
+
+            if self.current_frame >= self.max_lifetime:  # If all frames have been shown
+                self.kill()  # Remove the explosion sprite from the game
+            else:
+                self.image = pygame.transform.scale(self.frames[self.current_frame], (int(ASTEROID_MAX_RADIUS * 1.5 * 2), int(ASTEROID_MAX_RADIUS * 1.5 * 2))) # Update the image to the next frame
+
+    def draw(self, screen):
+        screen.blit(self.image, self.rect)
+
+
+
