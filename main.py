@@ -16,6 +16,8 @@ def main():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
     
+    background = pygame.image.load('assets/images/background.png')
+    background = pygame.transform.scale(background, (SCREEN_WIDTH,SCREEN_HEIGHT))
     title_screen(screen)
     
     time_elapsed = 0  # Start internal clock to have boss timer start
@@ -41,6 +43,7 @@ def main():
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)  # Spawn player in the center
     
     dt = 0
+    asteroids_killed = 0
     explosion_complete = False  # Flag to track if the explosion animation is complete
     explosion_start_time = None
     boss_defeated = False
@@ -92,10 +95,11 @@ def main():
                     else:  # Normal asteroids
                         asteroid.split()
                         bullet.kill()
+                        asteroids_killed += 1
 
 
         # Spawn the boss after 15 seconds
-        if time_elapsed >= 5 and not boss_spawned:
+        if asteroids_killed >= 10 and not boss_spawned:
             asteroid_field.spawn_boss(updatable, drawable)  # Spawn boss at custom location
             boss_spawned = True
             sound_manager.play_boss_music()
@@ -107,7 +111,8 @@ def main():
             pass
 
         # Update the screen
-        screen.fill('black')
+        #screen.fill('black')
+        screen.blit(background, (0, 0))
 
         # Draw all objects
         for obj in drawable:

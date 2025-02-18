@@ -59,9 +59,9 @@ class Explosion(pygame.sprite.Sprite):
 
         # Load a sequence of images representing the explosion animation.
         self.frames = [
-            pygame.image.load('assets/images/explosion.jpg'),
-            pygame.image.load('assets/images/explosion2.jpg'),
-            pygame.image.load('assets/images/explosion3.jpg'),
+            pygame.image.load('assets/images/explosion.png'),
+            pygame.image.load('assets/images/explosion2.png'),
+            pygame.image.load('assets/images/explosion3.png'),
             #pygame.image.load('assets/images/explosion4.png'),
             # Add more frames if necessary
         ]
@@ -93,7 +93,7 @@ class Explosion(pygame.sprite.Sprite):
             if self.current_frame >= self.max_lifetime:  # If all frames have been shown
                 self.kill()  # Remove the explosion sprite from the game
             else:
-                self.image = pygame.transform.scale(self.frames[self.current_frame], (int(ASTEROID_MAX_RADIUS * 1.5 * 2), int(ASTEROID_MAX_RADIUS * 1.5 * 2))) # Update the image to the next frame
+                self.image = pygame.transform.scale(self.frames[self.current_frame], self.rect.center) # Update the image to the next frame
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)

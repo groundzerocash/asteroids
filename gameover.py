@@ -5,7 +5,7 @@ import sys
 
 def title_screen(screen):
     font = pygame.font.SysFont(None, 48)
-    title_text = font.render("GOAL: Survive One Minute", True, (0, 0, 255))
+    title_text = font.render("GOAL: Defeat Enemy", True, (0, 0, 255))
     start_text = font.render("Press ENTER to Start", True, (0, 255, 0))
 
     while True:

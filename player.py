@@ -30,7 +30,7 @@ class Player(CircleShape):
     
     def draw(self, screen):
         #pygame.draw.polygon(screen, 'white', self.triangle(), 2)
-        pygame.draw.circle(screen, (255, 0, 0), self.rect.center, self.radius, 2)  # Debug circle
+        #pygame.draw.circle(screen, (255, 0, 0), self.rect.center, self.radius, 2)  # Debug circle
         screen.blit(self.player_image, self.rect)  # Draw the player sprite
     
     def rotate(self, dt):
