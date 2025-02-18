@@ -30,7 +30,7 @@ def game_over_screen(screen):
     font = pygame.font.SysFont("Arial", 48)
     
     # Text for Game Over and try again prompt
-    game_over_text = font.render("Game Over, Get Back to Work!", True, (255, 0, 0))
+    game_over_text = font.render("Game Over!", True, (255, 0, 0))
     try_again_text = font.render("Press 'R' to Try Again or 'Q' to Quit", True, (255, 255, 255))
     
     # Get the size of the texts
@@ -67,7 +67,7 @@ def win_screen(screen):
     font = pygame.font.SysFont("Arial", 48)
     
     # Text for Game Over and try again prompt
-    game_over_text = font.render("You Win! Get Back to Work!", True, (255, 0, 0))
+    game_over_text = font.render("You Win!", True, (255, 0, 0))
     try_again_text = font.render("Press 'R' to Play Again or 'Q' to Quit", True, (255, 255, 255))
     
     # Get the size of the texts
